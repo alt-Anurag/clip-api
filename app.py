@@ -8,6 +8,7 @@ from io import BytesIO
 import time
 import supabase
 import os
+import gradio as gr
 
 app = FastAPI()
 
@@ -64,7 +65,7 @@ def recommend(data: EmbedRequest):
 
 
 # 👉 Add this dummy gradio interface to keep Space alive
-import gradio as gr
+
 
 def status():
     return "✅ API is running. Use POST /recommend to get embeddings."
