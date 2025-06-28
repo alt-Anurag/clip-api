@@ -4,5 +4,4 @@ pillow
 sentence-transformers
 requests
 supabase
-pydantic
-PIL
+
