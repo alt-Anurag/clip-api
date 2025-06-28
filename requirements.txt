@@ -4,4 +4,4 @@ pillow
 sentence-transformers
 requests
 supabase
-
+gradio

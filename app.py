@@ -12,7 +12,7 @@ import os
 app = FastAPI()
 
 SUPABASE_URL = "https://jsnbscsxsqrrdgllgttw.supabase.co"
-SUPABASE_KEY = SUPABASE_KEY = os.getenv("SUPABASE_KEY")  # Set this securely in Render
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")  # Securely set in Space secrets
 client = supabase.create_client(SUPABASE_URL, SUPABASE_KEY)
 
 model = SentenceTransformer("clip-ViT-B-32")
@@ -27,7 +27,6 @@ class EmbedRequest(BaseModel):
 @app.post("/recommend")
 def recommend(data: EmbedRequest):
     try:
-        # --- Image fetch and embedding
         headers = {"User-Agent": "Mozilla/5.0"}
         response = requests.get(data.image_url, stream=True, headers=headers, timeout=10)
         if not response.ok:
@@ -36,7 +35,6 @@ def recommend(data: EmbedRequest):
         image = Image.open(BytesIO(response.content)).convert("RGB")
         query_embedding = model.encode(image).tolist()
 
-        # --- Retry RPC logic
         attempt = 0
         max_retries = 3
         while attempt < max_retries:
@@ -48,7 +46,7 @@ def recommend(data: EmbedRequest):
                 }).execute()
                 if rpc_response.error:
                     raise Exception(rpc_response.error.message)
-                break  # success
+                break
             except Exception as e:
                 attempt += 1
                 if attempt == max_retries:
@@ -63,3 +61,13 @@ def recommend(data: EmbedRequest):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
+
+
+# 👉 Add this dummy gradio interface to keep Space alive
+import gradio as gr
+
+def status():
+    return "✅ API is running. Use POST /recommend to get embeddings."
+
+iface = gr.Interface(fn=status, inputs=[], outputs="text")
+iface.launch()
