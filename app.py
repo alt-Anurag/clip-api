@@ -64,7 +64,7 @@ def recommend(data: EmbedRequest):
         raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
 
-# 👉 Add this dummy gradio interface to keep Space alive
+# dummy gradio interface to keep Space alive, it sucks without gradio lol
 
 
 def status():
