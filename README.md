@@ -69,6 +69,6 @@ Make sure to securely set the following secret in your Hugging Face Space:
 
 ## Author
 
-[Anurag Kumar Jha](https://github.com/anuragkjha)
+[Anurag Kumar Jha](https://github.com/alt-Anurag)
 
 ---
