@@ -72,7 +72,3 @@ Make sure to securely set the following secret in your Hugging Face Space:
 [Anurag Kumar Jha](https://github.com/anuragkjha)
 
 ---
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
